@@ -1,0 +1,24 @@
+name = "echo-migration-manager"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+
+[triggers]
+crons = ["0 5 * * *"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "echo-migration-manager"
+database_id = "0228a2c1-28cf-4457-b08f-d42cab5bac5f"
+
+[[kv_namespaces]]
+binding = "CACHE"
+id = "9fef87c4da2345fea7819971eb5c38c7"
+
+[[services]]
+binding = "SHARED_BRAIN"
+service = "echo-shared-brain"
+
+[[services]]
+binding = "ALERT_ROUTER"
+service = "echo-alert-router"
