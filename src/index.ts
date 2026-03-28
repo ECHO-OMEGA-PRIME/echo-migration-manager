@@ -8,6 +8,7 @@ interface Env {
   CACHE: KVNamespace;
   SHARED_BRAIN: Fetcher;
   ALERT_ROUTER: Fetcher;
+  ECHO_API_KEY: string;
 }
 
 interface Migration {
@@ -138,7 +139,7 @@ function log(level: LogLevel, message: string, data?: Record<string, unknown>): 
 
 const VERSION = "1.0.0";
 const START_TIME = Date.now();
-const API_KEY = "echo-omega-prime-forge-x-2026";
+// API_KEY pulled from env at runtime — never hardcoded
 
 async function sha256(text: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -263,7 +264,7 @@ app.use("*", async (c, next) => {
     return next();
   }
   const key = c.req.header("X-Echo-API-Key");
-  if (key !== API_KEY) {
+  if (key !== (c.env.ECHO_API_KEY || '')) {
     return jsonError("Unauthorized: invalid or missing X-Echo-API-Key", 401);
   }
   return next();
